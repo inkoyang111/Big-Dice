@@ -6,7 +6,7 @@ const root = path.resolve(__dirname, '..')
 const outputDir = path.join(root, 'assets', 'images')
 
 const transparentAssets = [
-  ['设计稿/分层素材/骰盅.png', 'cup-closed.png', 520],
+  ['设计稿/分层素材/骰盅.png', 'cup-closed.png', 480],
   ['设计稿/分层素材/骰盘.png', 'tray.png', 650],
   ['设计稿/分层补充素材-v2/open-cup-alpha.png', 'cup-open.png', 440],
   ['设计稿/分层补充素材-v2/floor-medallion-alpha.png', 'medallion.png', 760],
