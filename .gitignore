@@ -1,0 +1,22 @@
+# 微信开发者工具个人配置
+project.private.config.json
+
+# 依赖与构建产物
+node_modules/
+miniprogram_npm/
+dist/
+build/
+coverage/
+
+# 日志
+*.log
+
+# 编辑器个人配置
+.idea/
+.vscode/
+*.swp
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+Desktop.ini

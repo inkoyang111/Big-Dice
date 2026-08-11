@@ -1,0 +1,27 @@
+<view class="page">
+  <view class="dice-area" aria-label="骰子区域">
+    <view wx:if="{{diceVisible}}" class="dice-list">
+      <view wx:for="{{dice}}" wx:key="index" class="die">{{item}}</view>
+    </view>
+
+    <button
+      class="cover"
+      disabled="{{isRolling}}"
+      bindtap="handleCoverTap"
+      aria-label="{{diceVisible ? '合上骰盅' : '打开骰盅'}}"
+    >
+      {{diceVisible ? '骰盅已打开' : '骰盅已合上'}}
+    </button>
+  </view>
+
+  <text class="hint">{{hintText}}</text>
+
+  <button
+    class="primary-action"
+    loading="{{isRolling}}"
+    disabled="{{isRolling}}"
+    bindtap="handleRoll"
+  >
+    {{actionText}}
+  </button>
+</view>

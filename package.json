@@ -1,0 +1,12 @@
+{
+  "name": "liars-dice-miniprogram",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "node --check app.js && node --check utils/dice-game.js && node --check utils/audio-player.js && node --check pages/index/index.js"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
