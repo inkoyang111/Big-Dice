@@ -159,10 +159,6 @@
   border: 0;
 }
 
-.primary-action[disabled] {
-  opacity: 1;
-}
-
 .primary-action__base {
   position: absolute;
   inset: 0;
