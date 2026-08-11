@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>大话骰视觉验收</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: #1c1713; }
+    body { display: grid; min-height: 100vh; place-items: center; font-family: STKaiti, KaiTi, FangSong, serif; }
+    .phone { position: relative; width: 390px; height: 844px; overflow: hidden; background: #120805; color: #fff0c9; }
+    .background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .stage { position: relative; z-index: 1; width: 390px; height: 605px; }
+    .medallion { position: absolute; z-index: 1; top: 395px; left: 22px; width: 330px; opacity: .43; }
+    .cover { position: absolute; z-index: 5; inset: 0; cursor: pointer; }
+    .cup { position: absolute; display: block; filter: drop-shadow(0 11px 9px rgba(0,0,0,.48)); }
+    .cup.closed { top: 285px; left: 80px; width: 215px; }
+    .cup.open { top: 257px; left: 205px; width: 150px; transform: rotate(3deg); }
+    .tray { position: absolute; z-index: 3; top: 452px; left: 52px; width: 270px; filter: drop-shadow(0 11px 9px rgba(0,0,0,.52)); }
+    .die { position: absolute; z-index: 4; width: 46px; filter: drop-shadow(0 6px 4px rgba(0,0,0,.46)); }
+    .die-0 { top: 480px; left: 95px; transform: rotate(-16deg); }
+    .die-1 { top: 457px; left: 160px; transform: rotate(7deg); }
+    .die-2 { top: 483px; left: 230px; transform: rotate(16deg); }
+    .die-3 { top: 524px; left: 135px; transform: rotate(-8deg); }
+    .die-4 { top: 515px; left: 201px; transform: rotate(10deg); }
+    .hint { position: absolute; z-index: 7; color: #d9b56b; font-size: 12px; letter-spacing: .5px; text-shadow: 0 1px 2px #000; white-space: nowrap; }
+    .hint.open-hint { top: 300px; right: 15px; }
+    .hint.close-hint { top: 220px; right: 15px; }
+    .action { position: absolute; z-index: 10; top: 620px; left: 50px; width: 290px; height: 66px; padding: 0; border: 0; background: transparent; cursor: pointer; font: inherit; }
+    .action img { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .action span { position: relative; z-index: 1; display: flex; height: 57px; align-items: center; justify-content: center; color: #fff0c9; font-size: 28px; letter-spacing: 2.5px; text-shadow: 0 1.5px 1.5px rgba(86,12,7,.75); }
+  </style>
+</head>
+<body>
+  <main class="phone" data-testid="phone-screen">
+    <img id="background" class="background" src="../assets/images/background.jpg" alt="" />
+    <section class="stage">
+      <img class="medallion" src="../assets/images/medallion.png" alt="" />
+      <div id="openSet" hidden>
+        <img class="tray" src="../assets/images/tray.png" alt="骰盘" />
+        <img class="die die-0" src="../assets/images/dice-4.png" alt="四点" />
+        <img class="die die-1" src="../assets/images/dice-6.png" alt="六点" />
+        <img class="die die-2" src="../assets/images/dice-4.png" alt="四点" />
+        <img class="die die-3" src="../assets/images/dice-5.png" alt="五点" />
+        <img class="die die-4" src="../assets/images/dice-3.png" alt="三点" />
+      </div>
+      <div id="cover" class="cover" role="button" aria-label="打开骰盅">
+        <img id="cup" class="cup closed" src="../assets/images/cup-closed.png" alt="骰盅" />
+      </div>
+      <span id="hint" class="hint open-hint">点击骰盅开盖查看</span>
+    </section>
+    <button id="action" class="action">
+      <img src="../assets/images/button.png" alt="" />
+      <span id="actionText">摇一摇</span>
+    </button>
+  </main>
+  <script>
+    let open = false
+    const cover = document.querySelector('#cover')
+    const cup = document.querySelector('#cup')
+    const openSet = document.querySelector('#openSet')
+    const hint = document.querySelector('#hint')
+    const actionText = document.querySelector('#actionText')
+    const background = document.querySelector('#background')
+    cover.addEventListener('click', () => {
+      open = !open
+      openSet.hidden = !open
+      background.src = open ? '../assets/images/background-open.jpg' : '../assets/images/background.jpg'
+      cup.src = open ? '../assets/images/cup-open.png' : '../assets/images/cup-closed.png'
+      cup.className = `cup ${open ? 'open' : 'closed'}`
+      hint.className = `hint ${open ? 'close-hint' : 'open-hint'}`
+      hint.textContent = open ? '点击骰盅合上' : '点击骰盅开盖查看'
+      actionText.textContent = '再摇一次'
+    })
+    document.querySelector('#action').addEventListener('click', () => {
+      open = false
+      openSet.hidden = true
+      background.src = '../assets/images/background.jpg'
+      cup.src = '../assets/images/cup-closed.png'
+      cup.className = 'cup closed'
+      hint.className = 'hint open-hint'
+      hint.textContent = '点击骰盅开盖查看'
+      actionText.textContent = '再摇一次'
+    })
+  </script>
+</body>
+</html>

@@ -4,9 +4,10 @@
   ],
   "window": {
     "navigationBarTitleText": "大话骰",
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTextStyle": "black",
-    "backgroundColor": "#ffffff"
+    "navigationStyle": "custom",
+    "navigationBarBackgroundColor": "#120805",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#120805"
   },
   "sitemapLocation": "sitemap.json"
 }

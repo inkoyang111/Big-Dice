@@ -1,27 +1,61 @@
-<view class="page">
-  <view class="dice-area" aria-label="骰子区域">
-    <view wx:if="{{diceVisible}}" class="dice-list">
-      <view wx:for="{{dice}}" wx:key="index" class="die">{{item}}</view>
+<view class="page page--{{status}}">
+  <image
+    class="background"
+    src="{{diceVisible ? '/assets/images/background-open.jpg' : '/assets/images/background.jpg'}}"
+    mode="aspectFill"
+  />
+
+  <view class="game-stage">
+    <image class="medallion" src="/assets/images/medallion.png" mode="widthFix" />
+
+    <view wx:if="{{diceVisible}}" class="open-set" aria-label="本轮骰子结果">
+      <image class="tray" src="/assets/images/tray.png" mode="widthFix" />
+      <image
+        wx:for="{{dice}}"
+        wx:key="index"
+        class="die die--{{index}}"
+        src="/assets/images/dice-{{item}}.png"
+        mode="widthFix"
+        aria-label="第 {{index + 1}} 颗骰子，{{item}} 点"
+      />
     </view>
 
-    <button
-      class="cover"
-      disabled="{{isRolling}}"
+    <view
+      class="cover-hit-area"
       bindtap="handleCoverTap"
+      role="button"
       aria-label="{{diceVisible ? '合上骰盅' : '打开骰盅'}}"
     >
-      {{diceVisible ? '骰盅已打开' : '骰盅已合上'}}
-    </button>
-  </view>
+      <image
+        wx:if="{{diceVisible}}"
+        class="cup cup--open"
+        src="/assets/images/cup-open.png"
+        mode="widthFix"
+      />
+      <image
+        wx:else
+        class="cup cup--closed {{isRolling ? 'cup--rolling' : ''}}"
+        src="/assets/images/cup-closed.png"
+        mode="widthFix"
+      />
+    </view>
 
-  <text class="hint">{{hintText}}</text>
+    <view wx:if="{{status === 'ready'}}" class="cover-hint cover-hint--open">
+      <text>点击骰盅开盖查看</text>
+    </view>
+    <view wx:if="{{status === 'open'}}" class="cover-hint cover-hint--close">
+      <text>点击骰盅合上</text>
+    </view>
+  </view>
 
   <button
     class="primary-action"
-    loading="{{isRolling}}"
+    hover-class="primary-action--pressed"
     disabled="{{isRolling}}"
     bindtap="handleRoll"
+    aria-label="{{actionText}}"
   >
-    {{actionText}}
+    <image class="primary-action__base" src="/assets/images/button.png" mode="scaleToFill" />
+    <text class="primary-action__label">{{isRolling ? '摇骰中' : actionText}}</text>
   </button>
 </view>

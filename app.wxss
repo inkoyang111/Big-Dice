@@ -1,3 +1,5 @@
 page {
   min-height: 100%;
+  background: #120805;
+  color: #fff2d1;
 }
