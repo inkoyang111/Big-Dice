@@ -2,7 +2,8 @@ const { STATUS, createDiceGame } = require('../../utils/dice-game')
 const { createAudioPlayer } = require('../../utils/audio-player')
 
 const ROLL_DURATION_MS = 1500
-const SHAKE_AUDIO_SOURCE = ''
+const TOAST_COOLDOWN_MS = 2000
+const SHAKE_AUDIO_SOURCE = '/assets/audio/dice-shake.mp3'
 
 Page({
   data: {
@@ -21,10 +22,38 @@ Page({
   },
 
   onUnload() {
-    if (this.rollTimer) {
-      clearTimeout(this.rollTimer)
-    }
+    this.clearRollTimer()
     this.audioPlayer.destroy()
+  },
+
+  onHide() {
+    const state = this.game.getState()
+
+    if (state.status === STATUS.OPEN) {
+      this.game.toggleCover()
+      this.syncView()
+      return
+    }
+
+    if (state.status === STATUS.ROLLING) {
+      this.clearRollTimer()
+    }
+  },
+
+  onShow() {
+    if (!this.game || this.game.getState().status !== STATUS.ROLLING) {
+      return
+    }
+
+    const elapsed = Date.now() - this.rollStartedAt
+    const remaining = ROLL_DURATION_MS - elapsed
+
+    if (remaining <= 0) {
+      this.finishRoll()
+      return
+    }
+
+    this.scheduleRollCompletion(remaining)
   },
 
   handleRoll() {
@@ -32,23 +61,57 @@ Page({
       return
     }
 
+    this.rollStartedAt = Date.now()
     this.syncView()
     this.audioPlayer.play()
-    this.rollTimer = setTimeout(() => {
-      this.game.finishRoll()
-      this.rollTimer = null
-      this.syncView()
-    }, ROLL_DURATION_MS)
+    this.scheduleRollCompletion(ROLL_DURATION_MS)
   },
 
   handleCoverTap() {
     if (!this.game.toggleCover()) {
       if (this.game.getState().status === STATUS.INITIAL) {
-        wx.showToast({ title: '请先摇骰', icon: 'none' })
+        this.showInitialToast()
       }
       return
     }
 
+    this.syncView()
+  },
+
+  showInitialToast() {
+    const now = Date.now()
+    if (
+      this.lastInitialToastAt !== undefined &&
+      now - this.lastInitialToastAt < TOAST_COOLDOWN_MS
+    ) {
+      return
+    }
+
+    this.lastInitialToastAt = now
+    wx.showToast({ title: '请先摇骰', icon: 'none', duration: 1500 })
+  },
+
+  scheduleRollCompletion(delay) {
+    this.clearRollTimer()
+    this.rollTimer = setTimeout(() => this.finishRoll(), delay)
+  },
+
+  clearRollTimer() {
+    if (!this.rollTimer) {
+      return
+    }
+
+    clearTimeout(this.rollTimer)
+    this.rollTimer = null
+  },
+
+  finishRoll() {
+    if (!this.game.finishRoll()) {
+      return
+    }
+
+    this.rollTimer = null
+    this.rollStartedAt = null
     this.syncView()
   },
 

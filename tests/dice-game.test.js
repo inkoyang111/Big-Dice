@@ -8,7 +8,7 @@ const {
 } = require('../utils/dice-game')
 
 test('生成固定 5 颗且点数始终为 1 至 6 的整数', () => {
-  for (let index = 0; index < 1000; index += 1) {
+  for (let index = 0; index < 10000; index += 1) {
     const dice = generateDice()
     assert.equal(dice.length, 5)
     dice.forEach((value) => {
