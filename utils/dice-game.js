@@ -53,6 +53,31 @@ function createDiceGame(random = Math.random) {
     return true
   }
 
+  function ensureMinimumOnes(minimum) {
+    if (state.status !== STATUS.ROLLING) {
+      return false
+    }
+
+    const dice = state.dice.slice()
+    let onesCount = dice.filter((value) => value === MIN_DIE_VALUE).length
+    const candidates = dice
+      .map((value, index) => ({ value, index }))
+      .filter(({ value }) => value !== MIN_DIE_VALUE)
+
+    while (onesCount < minimum) {
+      const candidateIndex = Math.floor(random() * candidates.length)
+      const [{ index }] = candidates.splice(candidateIndex, 1)
+      dice[index] = MIN_DIE_VALUE
+      onesCount += 1
+    }
+
+    state = {
+      status: state.status,
+      dice
+    }
+    return true
+  }
+
   function toggleCover() {
     if (state.status === STATUS.READY) {
       state = {
@@ -76,6 +101,7 @@ function createDiceGame(random = Math.random) {
   return {
     getState,
     startRoll,
+    ensureMinimumOnes,
     finishRoll,
     toggleCover
   }

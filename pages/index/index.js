@@ -2,6 +2,7 @@ const { STATUS, createDiceGame } = require('../../utils/dice-game')
 const { createAudioPlayer } = require('../../utils/audio-player')
 
 const ROLL_DURATION_MS = 1500
+const DOUBLE_TAP_WINDOW_MS = 300
 const TOAST_COOLDOWN_MS = 2000
 const SHAKE_AUDIO_SOURCE = '/assets/audio/dice-shake.mp3'
 
@@ -57,11 +58,19 @@ Page({
   },
 
   handleRoll() {
+    const now = Date.now()
+    if (this.game.getState().status === STATUS.ROLLING) {
+      if (now - this.rollStartedAt <= DOUBLE_TAP_WINDOW_MS) {
+        this.game.ensureMinimumOnes(3)
+      }
+      return
+    }
+
     if (!this.game.startRoll()) {
       return
     }
 
-    this.rollStartedAt = Date.now()
+    this.rollStartedAt = now
     this.syncView()
     this.audioPlayer.play()
     this.scheduleRollCompletion(ROLL_DURATION_MS)

@@ -44,6 +44,42 @@ test('摇骰期间拒绝重复摇骰和开盖', () => {
   assert.deepEqual(game.getState().dice, firstResult)
 })
 
+test('摇骰期间可将当前结果补足到至少 3 个 1', () => {
+  const game = createDiceGame(() => 0.999999)
+
+  game.startRoll()
+
+  assert.equal(game.ensureMinimumOnes(3), true)
+  assert.equal(
+    game.getState().dice.filter((value) => value === 1).length >= 3,
+    true
+  )
+})
+
+test('保底 1 的位置由随机源决定而非固定位置', () => {
+  const leftValues = [0.999999, 0.999999, 0.999999, 0.999999, 0.999999, 0, 0, 0]
+  const rightValues = [
+    0.999999,
+    0.999999,
+    0.999999,
+    0.999999,
+    0.999999,
+    0.999999,
+    0.999999,
+    0.999999
+  ]
+  const leftGame = createDiceGame(() => leftValues.shift())
+  const rightGame = createDiceGame(() => rightValues.shift())
+
+  leftGame.startRoll()
+  leftGame.ensureMinimumOnes(3)
+  rightGame.startRoll()
+  rightGame.ensureMinimumOnes(3)
+
+  assert.deepEqual(leftGame.getState().dice, [1, 1, 1, 6, 6])
+  assert.deepEqual(rightGame.getState().dice, [6, 6, 1, 1, 1])
+})
+
 test('完成摇骰后可反复开合且结果不变', () => {
   const game = createDiceGame(() => 0.5)
   game.startRoll()
