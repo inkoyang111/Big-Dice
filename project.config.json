@@ -5,25 +5,90 @@
   "miniprogramRoot": "./",
   "packOptions": {
     "ignore": [
-      { "type": "folder", "value": "设计稿" },
-      { "type": "folder", "value": "tests" },
-      { "type": "folder", "value": "scripts" },
-      { "type": "folder", "value": "qa-preview" },
-      { "type": "folder", "value": "node_modules" },
-      { "type": "file", "value": "AGENTS.md" },
-      { "type": "file", "value": "README.md" },
-      { "type": "file", "value": "package.json" },
-      { "type": "file", "value": "package-lock.json" },
-      { "type": "file", "value": "需求文档.md" },
-      { "type": "file", "value": "测试用例.md" },
-      { "type": "file", "value": "设计交接文档.md" },
-      { "type": "file", "value": "design-qa.md" }
-    ]
+      {
+        "value": "设计稿",
+        "type": "folder"
+      },
+      {
+        "value": "tests",
+        "type": "folder"
+      },
+      {
+        "value": "scripts",
+        "type": "folder"
+      },
+      {
+        "value": "qa-preview",
+        "type": "folder"
+      },
+      {
+        "value": "node_modules",
+        "type": "folder"
+      },
+      {
+        "value": "AGENTS.md",
+        "type": "file"
+      },
+      {
+        "value": "README.md",
+        "type": "file"
+      },
+      {
+        "value": "package.json",
+        "type": "file"
+      },
+      {
+        "value": "package-lock.json",
+        "type": "file"
+      },
+      {
+        "value": "需求文档.md",
+        "type": "file"
+      },
+      {
+        "value": "测试用例.md",
+        "type": "file"
+      },
+      {
+        "value": "设计交接文档.md",
+        "type": "file"
+      },
+      {
+        "value": "design-qa.md",
+        "type": "file"
+      },
+      {
+        "value": "V2-代码交接.md",
+        "type": "file"
+      }
+    ],
+    "include": []
   },
   "projectname": "liars-dice-miniprogram",
   "setting": {
     "es6": true,
     "minified": true,
-    "postcss": true
-  }
+    "postcss": true,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "enhance": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "simulatorPluginLibVersion": {},
+  "editorSetting": {}
 }
